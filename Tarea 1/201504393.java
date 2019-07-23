@@ -130,14 +130,14 @@ public class Tarea {
 //--------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------
     private static String primos(int numero) {
-        int tamano = 0;
+        int contador = 0;
         String primos = "|";
         do {
-            tamano++;
-            if (CribaEratostenes(tamano)) {
-                primos += tamano + "|";
+            contador++;
+            if (CribaEratostenes(contador)) {
+                primos += contador + "|";
             }
-        } while (tamano != numero);
+        } while (contador != numero);
         
         return primos;
     }
