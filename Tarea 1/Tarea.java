@@ -129,7 +129,7 @@ public class Tarea {
 //------------------------------RETORNA LOS PRIMOS DENTRO DE UN NUMERO DADO-------------------------------
 //--------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------
-    private static String primos(int contador) {
+    private static String primos(int numero) {
         int tamano = 0;
         String primos = "|";
         do {
@@ -137,7 +137,7 @@ public class Tarea {
             if (CribaEratostenes(tamano)) {
                 primos += tamano + "|";
             }
-        } while (tamano != contador);
+        } while (tamano != numero);
         
         return primos;
     }
