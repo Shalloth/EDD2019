@@ -1,0 +1,123 @@
+#include <iostream>
+#include <string>
+
+using namespace :: std;
+
+class Bolsa{
+private:
+    string elemento;
+    Bolsa* next;
+
+public:
+    Bolsa(string);
+    Bolsa* insertar(Bolsa*&, const string);
+    bool esVacia(Bolsa*);
+    int cuantos(Bolsa*, string);
+    void mostrar(Bolsa *);
+};
+
+Bolsa::Bolsa(string _elemento){
+    elemento = _elemento;
+    next = nullptr;
+}
+
+Bolsa* Bolsa::insertar(Bolsa *&bolsaVacia, string elemento){
+    Bolsa* nuevo = new Bolsa(elemento);
+
+    if(bolsaVacia != nullptr){
+        Bolsa* temporal =  bolsaVacia;
+        do{
+            if(temporal->next == bolsaVacia){
+                nuevo->next = bolsaVacia;
+                temporal->next = nuevo;
+                break;
+            }
+            temporal = temporal->next;
+        }while(temporal != bolsaVacia);
+    }else{
+        bolsaVacia = nuevo;
+        bolsaVacia->next = nuevo;
+    }
+
+    return bolsaVacia;
+}
+
+bool Bolsa::esVacia(Bolsa *bolsaVacia){
+    if(bolsaVacia != nullptr){
+        return 0;
+    }
+    return 1;
+}
+
+int Bolsa::cuantos(Bolsa *bolsaVacia, string elemento){
+    Bolsa* temporal = bolsaVacia;
+    int contador = 0;
+
+    do{
+        contador++;
+        if(temporal->elemento == elemento){
+            cout<<"Objeto en el indice: "<<contador<<endl;
+            contador = 0;
+            break;
+        }
+        temporal = temporal->next;
+    }while(temporal != bolsaVacia);
+
+
+
+    do{
+        contador++;
+        temporal = temporal->next;
+    }while(temporal != bolsaVacia);
+
+    cout<<"Tiene: "<<contador<<" objetos contando desde el indice"<<endl;
+
+    return contador;
+}
+
+void Bolsa::mostrar(Bolsa *bolsaVacia){
+    Bolsa* temporal = bolsaVacia;
+
+    do{
+        cout<<temporal->elemento<<endl;
+        temporal = temporal->next;
+    }while(temporal != bolsaVacia);
+}
+
+Bolsa *bolsaVacia;
+
+
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+//-----------------------------------------METODO  MAIN--------------------------------------------
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+int main()
+{
+    /*
+     * COMPROBACION DE LA LISTA VACIA
+    */
+    cout<<bolsaVacia->esVacia(bolsaVacia)<<endl; //RETORNA VERDADERO -> 1
+    cout<<bolsaVacia->esVacia(bolsaVacia->insertar(bolsaVacia,"0"))<<endl; //RETORNA FALSO -> 0
+
+
+    /*
+     * INSERCION DE LOS TDA
+    */
+    bolsaVacia->insertar(bolsaVacia, "1");  //INSERTAR(BOLSA*&, ELEMENTO)
+    bolsaVacia->insertar(bolsaVacia, "2");
+    bolsaVacia->insertar(bolsaVacia, "3");
+    bolsaVacia->insertar(bolsaVacia, "4");
+
+    /*
+     * CONTADOR DE LOS TDA
+    */
+    bolsaVacia->cuantos(bolsaVacia, "3");
+
+    /*
+     * MUESTRA LOS TDA
+    */
+    bolsaVacia->mostrar(bolsaVacia);
+
+    return 0;
+}
