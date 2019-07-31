@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-using namespace :: std;
+using namespace ::std;
 
 class Bolsa{
 private:
@@ -53,6 +53,7 @@ int Bolsa::cuantos(Bolsa *bolsaVacia, string elemento){
     Bolsa* temporal = bolsaVacia;
     int contador = 0;
 
+    cout<<"Elemento a buscar: "<<elemento<<endl;
     do{
         contador++;
         if(temporal->elemento == elemento){
@@ -63,29 +64,26 @@ int Bolsa::cuantos(Bolsa *bolsaVacia, string elemento){
         temporal = temporal->next;
     }while(temporal != bolsaVacia);
 
-
-
     do{
         contador++;
         temporal = temporal->next;
     }while(temporal != bolsaVacia);
 
     cout<<"Tiene: "<<contador<<" objetos contando desde el indice"<<endl;
-
+    cout<<endl;
     return contador;
 }
 
 void Bolsa::mostrar(Bolsa *bolsaVacia){
     Bolsa* temporal = bolsaVacia;
-
+    int contador = 1;
     do{
-        cout<<temporal->elemento<<endl;
+        cout<<"Indice: "<<contador++<<" Valor: "<<temporal->elemento<<endl;
         temporal = temporal->next;
     }while(temporal != bolsaVacia);
 }
 
 Bolsa *bolsaVacia;
-
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -97,9 +95,11 @@ int main()
     /*
      * COMPROBACION DE LA LISTA VACIA
     */
-    cout<<bolsaVacia->esVacia(bolsaVacia)<<endl; //RETORNA VERDADERO -> 1
-    cout<<bolsaVacia->esVacia(bolsaVacia->insertar(bolsaVacia,"0"))<<endl; //RETORNA FALSO -> 0
-
+    cout<<"Bolsa vacia: "<< bolsaVacia->esVacia(bolsaVacia)<<endl; //RETORNA VERDADERO -> 1
+    
+    cout<<"Bolsa vacia: "<< bolsaVacia->esVacia(bolsaVacia->insertar(bolsaVacia,"0"))<<endl; //RETORNA FALSO -> 0
+    
+    cout<<endl;
 
     /*
      * INSERCION DE LOS TDA
