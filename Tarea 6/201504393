@@ -1,0 +1,154 @@
+#include <iostream>
+#include <string>
+
+using namespace ::std;
+
+class Producto{
+private:
+    int codigo;
+    int stock;
+    int stockMinimo;
+    string proveedor;
+    Producto* next;
+    Producto* back;
+
+public:
+    Producto(int, int, int, string);
+    Producto* insertar(Producto*&, int, int, int, const string);
+    void copiar (Producto*&,Producto*);
+    void eliminar(Producto*&);
+    void mostrar(Producto *);
+};
+
+Producto::Producto(int _codigo, int _stock, int _stockMinimo, string _proveedor){
+    codigo = _codigo;
+    stock = _stock;
+    stockMinimo = _stockMinimo;
+    proveedor = _proveedor;
+    next = nullptr;
+    back = nullptr;
+}
+
+Producto* Producto::insertar(Producto *&cabeza, int codigo, int stock, int stockMinimo, string proveedor){
+    Producto* nuevo = new Producto(codigo,stock,stockMinimo,proveedor);
+
+    if(cabeza != nullptr){
+        Producto* temporal =  cabeza;
+        do{
+            if(temporal->next == cabeza){
+                nuevo->next = cabeza;
+                nuevo->back = temporal;
+                temporal->next = nuevo;
+                break;
+            }
+            temporal = temporal->next;
+        }while(temporal != cabeza);
+    }else{
+        cabeza = nuevo;
+        nuevo->back = cabeza;
+        cabeza->next = nuevo;
+    }
+
+    return cabeza;
+}
+
+
+void Producto::mostrar(Producto *cabeza){
+    Producto* temporal = cabeza;
+
+    do{
+        cout<<"Valor: "<<temporal->codigo<<endl;
+        temporal = temporal->next;
+    }while(temporal != cabeza);
+}
+
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+//----------------------------------------METODO  COPIAR-------------------------------------------
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+
+void Producto::copiar(Producto *&raizOrdenada, Producto *raiz){
+    Producto* temporal = raiz;
+
+    do{
+        if(temporal->stockMinimo < raiz->stockMinimo){
+            Producto* nuevo = new Producto(temporal->codigo, temporal->stock, temporal->stockMinimo, temporal->proveedor);
+            if(raizOrdenada != nullptr){
+
+                if(nuevo->codigo < raizOrdenada->codigo){
+                    raizOrdenada->back->next = nuevo;
+                    nuevo->next = raizOrdenada;
+                    raizOrdenada->back = nuevo;
+                    raizOrdenada = nuevo;
+                }else{
+                    Producto* actual = raizOrdenada;
+                    Producto* auxiliar = raizOrdenada;
+                    do{
+                        if(nuevo->codigo > actual->codigo){
+                            auxiliar = auxiliar->next;
+                            actual->next = nuevo;
+                            nuevo->back = actual;
+                            nuevo->next = auxiliar;
+                            auxiliar->back = nuevo;
+                            actual = actual->next;
+                            break;
+                        }else if(actual->next == raizOrdenada){
+                            actual->next = nuevo;
+                            nuevo->back = actual;
+                            nuevo->next = raizOrdenada;
+                            raizOrdenada->back = nuevo;
+                        }
+                        actual = actual->next;
+                        auxiliar = actual;
+                    }while(actual != raizOrdenada);
+                }
+            }else{
+                nuevo->next = nuevo;
+                nuevo->back = nuevo;
+                raizOrdenada = nuevo;
+            }
+        }
+        temporal = temporal->next;
+    }while(temporal != raiz);
+}
+
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+//---------------------------------------METODO  ELIMINAR------------------------------------------
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+void Producto::eliminar(Producto *&raiz){
+    Producto* temporal = raiz;
+
+    do{
+        if(temporal->codigo > 100){
+            temporal->back->next = temporal->next;
+            temporal->next->back = temporal->back;
+            temporal = temporal->back;
+        }
+        temporal = temporal->next;
+    }while(temporal != raiz);
+}
+
+Producto *raiz;
+Producto *raizOrdenada;
+
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+//-----------------------------------------METODO  MAIN--------------------------------------------
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+int main()
+{
+    //AQUI SE CONTROLAN LOS METODOS DE LA CLASE ABSTRACTA DE PRODUCTOS (INSERTAR,COPIAR,ELIMINAR)
+    raiz->insertar(raiz, 100, 100, 120, "Holandesa");
+    raiz->insertar(raiz, 110, 110, 120, "Holandesa");
+    raiz->insertar(raiz, 120, 120, 120, "Holandesa");
+    raiz->insertar(raiz, 130, 130, 120, "Holandesa");
+
+    raiz->copiar(raizOrdenada,raiz);
+    raiz->eliminar(raiz);
+
+    return 0;
+}
